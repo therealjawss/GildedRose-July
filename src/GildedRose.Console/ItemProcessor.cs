@@ -31,63 +31,10 @@ namespace GildedRose.Console
 
         public virtual void UpdateState()
         {
-            if (GetItemCategory(Item)==ItemCategory.AgedBrie || GetItemCategory(Item)==ItemCategory.BackstagePasses)
-            {
-                if (Item.Quality < 50)
-                {
-                    Item.Quality = Item.Quality + 1;
 
-                    if (GetItemCategory(Item)==ItemCategory.BackstagePasses)
-                    {
-                        if (Item.SellIn < 11 && Item.Quality < 50)
-                        {
-                            Item.Quality = Item.Quality + 1;
-                        }
+            Item.Quality = Item.Quality < 0 ? 0 : Item.Quality;
+            Item.Quality = Item.Quality > 50 ? 50 : Item.Quality;
 
-                        if (Item.SellIn < 6 && Item.Quality < 50)
-                        {
-                            Item.Quality = Item.Quality + 1;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                if (Item.Quality > 0 && !(GetItemCategory(Item)==ItemCategory.LegendaryItem))
-                {
-                    Item.Quality = Item.Quality - 1;
-                }
-            }
-
-            if (!(GetItemCategory(Item) == ItemCategory.LegendaryItem))
-            {
-                Item.SellIn = Item.SellIn - 1;
-            }
-
-            if (Item.SellIn < 0)
-            {
-                if (GetItemCategory(Item)==ItemCategory.AgedBrie)
-                {
-                    if (Item.Quality < 50)
-                    {
-                        Item.Quality = Item.Quality + 1;
-                    }
-                }
-                else
-                {
-                    if (GetItemCategory(Item) == ItemCategory.BackstagePasses)
-                    {
-                        Item.Quality = Item.Quality - Item.Quality;
-                    }
-                    else
-                    {
-                        if (Item.Quality > 0 && !(GetItemCategory(Item) == ItemCategory.LegendaryItem))
-                        {
-                            Item.Quality = Item.Quality - 1;
-                        }
-                    }
-                }
-            }
         }
 
         public static ItemCategory GetItemCategory(Item item)

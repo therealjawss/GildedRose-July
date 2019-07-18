@@ -15,6 +15,7 @@ namespace GildedRose.Console
         public override void UpdateState()
         {
             //Do nothing for LegendaryItems
+
         }
     }
 }

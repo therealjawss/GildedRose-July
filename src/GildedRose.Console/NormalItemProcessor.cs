@@ -14,22 +14,8 @@ namespace GildedRose.Console
 
         public override void UpdateState()
         {
-           
-            if (Item.Quality > 0)
-            {
-                Item.Quality = Item.Quality - 1;
-            }
-           
-            Item.SellIn = Item.SellIn - 1;
-          
-            if (Item.SellIn < 0)
-            {
-                if (Item.Quality > 0 )
-                {
-                    Item.Quality = Item.Quality - 1;
-                }
-                  
-            }
+            Item.Quality -= (--Item.SellIn < 0 ? 2 : 1);
+            base.UpdateState();
         }
     }
 }
