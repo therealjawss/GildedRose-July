@@ -50,7 +50,7 @@ namespace GildedRose.Console
             }
         }
 
-        private static void UpdateItemQuality(Item item)
+        public void UpdateItemQuality(Item item)
         {
             if (item.Name != "Aged Brie" && item.Name != "Backstage passes to a TAFKAL80ETC concert")
             {

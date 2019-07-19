@@ -7,6 +7,13 @@ namespace GildedRose.Tests
 {
     public class TestAssemblyTests
     {
+        const string DEXTERITY = "+5 Dexterity Vest";
+        const string BRIE = "Aged Brie";
+        const string ELIXIR = "Elixir of the Mongoose";
+        const string SULFURAS = "Sulfuras, Hand of Ragnaros";
+        const string PASSES = "Backstage passes to a TAFKAL80ETC concert";
+        const string CONJURED = "Conjured Mana Cake";
+
         [Fact]
         public void TestTheTruth()
         {
@@ -14,8 +21,9 @@ namespace GildedRose.Tests
         }
 
         [Fact]
-        public void TestCurrentBehavor() {
-            var items =  new List<Item>
+        public void TestCurrentBehavor()
+        {
+            var items = new List<Item>
                                           {
                                               new Item {Name = "+5 Dexterity Vest", SellIn = 10, Quality = 20},
                                               new Item {Name = "Aged Brie", SellIn = 2, Quality = 0},
@@ -46,5 +54,26 @@ namespace GildedRose.Tests
             items[4].Quality.Should().Be(21);
             items[5].Quality.Should().Be(5);
         }
+
+        [Theory]
+        [MemberData(nameof(Data))]
+        public void UpdateItemQualityAccordingToSpecs(string name, int sellin, int quality, int newquality)
+        {
+            var item = new Item { Name = name, SellIn = sellin, Quality = quality };
+            Program program = new Program();
+            program.UpdateItemQuality(item);
+            item.SellIn.Should().Be(name.Equals(SULFURAS) ? 0 : sellin - 1);
+            item.Quality.Should().Be(newquality);
+
+        }
+
+        public static IEnumerable<object[]> Data => new List<object[]> {
+            new object[]{ DEXTERITY, 10, 20, 19 },
+            new object[]{ BRIE, 2, 0, 1 },
+            new object[]{ ELIXIR, 5, 7, 6 },
+            new object[]{ SULFURAS, 0, 80, 90 },
+            new object[]{ PASSES, 15, 20, 21 },
+            new object[]{ CONJURED, 3, 6, 5 },
+        };
     }
 }
