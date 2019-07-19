@@ -41,6 +41,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AgedBrieProcessor.cs" />
+    <Compile Include="BackstagePassProcessor.cs" />
+    <Compile Include="Category.cs" />
+    <Compile Include="ConjuredItemProcessor.cs" />
+    <Compile Include="ItemProcessor.cs" />
+    <Compile Include="LegendaryItemProcessor.cs" />
+    <Compile Include="NormalItemProcessor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
