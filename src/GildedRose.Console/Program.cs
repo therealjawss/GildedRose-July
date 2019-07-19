@@ -6,7 +6,7 @@ namespace GildedRose.Console
     {
         IList<Item> Items;
 
-        public Program();
+        public Program() { }
 
         public Program(IList<Item> items)
         {
