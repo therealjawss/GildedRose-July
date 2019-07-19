@@ -5,6 +5,14 @@ namespace GildedRose.Console
     public class Program
     {
         IList<Item> Items;
+
+        public Program();
+
+        public Program(IList<Item> items)
+        {
+            this.Items = items;
+        }
+
         static void Main(string[] args)
         {
             System.Console.WriteLine("OMGHAI!");
