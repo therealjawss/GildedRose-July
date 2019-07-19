@@ -1,3 +1,4 @@
+using GildedRose.Console;
 using Xunit;
 
 namespace GildedRose.Tests
@@ -8,6 +9,11 @@ namespace GildedRose.Tests
         public void TestTheTruth()
         {
             Assert.True(true);
+        }
+
+        [Fact]
+        public void TestCurrentBehavor() {
+            Program program = new Program();
         }
     }
 }
