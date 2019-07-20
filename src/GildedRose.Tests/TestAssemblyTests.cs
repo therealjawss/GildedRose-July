@@ -60,8 +60,8 @@ namespace GildedRose.Tests
         public void UpdateItemQualityAccordingToSpecs(string name, int sellin, int quality, int newquality)
         {
             var item = new Item { Name = name, SellIn = sellin, Quality = quality };
-            Program program = new Program();
-            program.UpdateItemQuality(item);
+            var updater= new Updater();
+            updater.UpdateItemQuality(item);
             item.SellIn.Should().Be(name.Equals(SULFURAS) ? 0 : sellin - 1);
             item.Quality.Should().Be(newquality);
 
