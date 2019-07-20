@@ -17,6 +17,19 @@ namespace GildedRose.Tests
             var updater = new Updater();
             updater.Should().NotBeNull();
         }
+
+        [Fact]
+        public void CreateUpdaterBasedOnCategory() {
+            Updater.GetFor(new Item { Name = Constants.BRIE }).Should().BeAssignableTo<BrieUpdater>();
+            Updater.GetFor(new Item { Name = Constants.PASSES }).Should().BeAssignableTo<BackstagePassesUpdater>();
+            Updater.GetFor(new Item { Name = Constants.SULFURAS }).Should().BeAssignableTo<LegendaryItemUpdater>();
+            Updater.GetFor(new Item { Name = Constants.CONJURED }).Should().BeAssignableTo<ConjuredItemUpdater>();
+            Updater.GetFor(new Item { Name = Constants.DEXTERITY }).Should().BeAssignableTo<NormalItemUpdater>();
+            Updater.GetFor(new Item { Name = Constants.ELIXIR }).Should().BeAssignableTo<NormalItemUpdater>();
+            
+
+        }
+
         [Theory]
         [MemberData(nameof(ItemsCategoryData))]
         public void GetCategoryForItems(string name, Category expectedcategory) {
@@ -24,7 +37,7 @@ namespace GildedRose.Tests
             var category = Updater.GetCategoryFor(item);
             category.Should().Be(expectedcategory);
         }
-              
+                      
         public static IEnumerable<object[]> ItemsData => new List<object[]> {
             new object[] { TestConstants.BRIE},
             new object[] { TestConstants.CONJURED},
@@ -33,6 +46,8 @@ namespace GildedRose.Tests
             new object[] { TestConstants.ELIXIR},
             new object[] { TestConstants.PASSES }
         };
+
+        
 
         public static IEnumerable<object[]> ItemsCategoryData => new List<object[]> {
             new object[] { TestConstants.BRIE, Category.AgedBrie},

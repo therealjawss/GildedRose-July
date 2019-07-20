@@ -81,6 +81,23 @@ namespace GildedRose.Console
             }
         }
 
+        public static object GetFor(Item item)
+        {
+            switch (GetCategoryFor(item))
+            {
+                case Category.AgedBrie:
+                    return new BrieUpdater();
+                case Category.BackstagePasses:
+                    return new BackstagePassesUpdater();
+                case Category.LegendaryItem:
+                    return new LegendaryItemUpdater();
+                case Category.ConjuredItem:
+                    return new ConjuredItemUpdater();
+                default:
+                    return new NormalItemUpdater();
+            }
+        }
+
         public static Category GetCategoryFor(Item item)
         {
             if (item.Name.Equals(Constants.BRIE))
