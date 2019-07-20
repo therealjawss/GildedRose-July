@@ -80,5 +80,19 @@ namespace GildedRose.Console
                 }
             }
         }
+
+        public static Category GetCategoryFor(Item item)
+        {
+            if (item.Name.Equals(Constants.BRIE))
+                return Category.AgedBrie;
+            else if (item.Name.StartsWith(Constants.PASSES))
+                return Category.BackstagePasses;
+            else if (item.Name.StartsWith(Constants.SULFURAS))
+                return Category.LegendaryItem;
+            else if (item.Name.StartsWith(Constants.CONJURED))
+                return Category.ConjuredItem;
+            else
+                return Category.Normal;
+        }
     }
 }
