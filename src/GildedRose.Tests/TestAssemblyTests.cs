@@ -7,12 +7,6 @@ namespace GildedRose.Tests
 {
     public class TestAssemblyTests
     {
-        const string DEXTERITY = "+5 Dexterity Vest";
-        const string BRIE = "Aged Brie";
-        const string ELIXIR = "Elixir of the Mongoose";
-        const string SULFURAS = "Sulfuras, Hand of Ragnaros";
-        const string PASSES = "Backstage passes to a TAFKAL80ETC concert";
-        const string CONJURED = "Conjured Mana Cake";
 
         [Fact]
         public void TestTheTruth()
@@ -60,38 +54,38 @@ namespace GildedRose.Tests
         public void UpdateItemQualityAccordingToSpecs(string name, int sellin, int quality, int newquality)
         {
             var item = new Item { Name = name, SellIn = sellin, Quality = quality };
-            var updater= new Updater();
+            var updater = new Updater();
             updater.UpdateItemQuality(item);
-            item.SellIn.Should().Be(name.Equals(SULFURAS) ? 0 : sellin - 1);
+            item.SellIn.Should().Be(name.Equals(TestConstants.SULFURAS) ? 0 : sellin - 1);
             item.Quality.Should().Be(newquality);
 
         }
 
         public static IEnumerable<object[]> Data => new List<object[]> {
-            new object[]{ DEXTERITY, 10, 20, 19 },
-            new object[]{ DEXTERITY, 0, 20, 18 },
-            new object[]{ BRIE, 2, 0, 1 },
-            new object[]{ BRIE, 2, 50, 50 },
-            new object[]{ BRIE, -1, 20, 22 },
-            new object[]{ BRIE, 0, 50, 50 },
-            new object[]{ ELIXIR, 5, 7, 6 },
-            new object[]{ ELIXIR, 0, 7, 5 },
-            new object[]{ ELIXIR, 0, 49, 47 },
-            new object[]{ ELIXIR, -1, 1,0  },
-            new object[]{ ELIXIR, -1, 10, 8  },
-            new object[]{ SULFURAS, 0, 80, 80 },
-            new object[]{ PASSES, 15, 20, 21 },
-            new object[]{ PASSES, 11, 20, 21 },
-            new object[]{ PASSES, 10, 20, 22 },
-            new object[]{ PASSES, 6, 20, 22 },
-            new object[]{ PASSES, 5, 20, 23 },
-            new object[]{ PASSES, 11, 49, 50 },
-            new object[]{ PASSES, 10, 49, 50 },
-            new object[]{ PASSES, 6, 49, 50 },
-            new object[]{ PASSES, 5, 49, 50 },
-            new object[]{ PASSES, 0, 49, 0 },
-            new object[]{ PASSES, -1, 20, 0 },
-            new object[]{ CONJURED, 3, 6, 5 },
+            new object[]{TestConstants.DEXTERITY, 10, 20, 19 },
+            new object[]{TestConstants.DEXTERITY, 0, 20, 18 },
+            new object[]{TestConstants.BRIE, 2, 0, 1 },
+            new object[]{TestConstants.BRIE, 2, 50, 50 },
+            new object[]{TestConstants.BRIE, -1, 20, 22 },
+            new object[]{TestConstants.BRIE, 0, 50, 50 },
+            new object[]{TestConstants.ELIXIR, 5, 7, 6 },
+            new object[]{TestConstants.ELIXIR, 0, 7, 5 },
+            new object[]{TestConstants.ELIXIR, 0, 49, 47 },
+            new object[]{TestConstants.ELIXIR, -1, 1,0  },
+            new object[]{TestConstants.ELIXIR, -1, 10, 8  },
+            new object[]{TestConstants.SULFURAS, 0, 80, 80 },
+            new object[]{TestConstants.PASSES, 15, 20, 21 },
+            new object[]{TestConstants.PASSES, 11, 20, 21 },
+            new object[]{TestConstants.PASSES, 10, 20, 22 },
+            new object[]{TestConstants.PASSES, 6, 20, 22 },
+            new object[]{TestConstants.PASSES, 5, 20, 23 },
+            new object[]{TestConstants.PASSES, 11, 49, 50 },
+            new object[]{TestConstants.PASSES, 10, 49, 50 },
+            new object[]{TestConstants.PASSES, 6, 49, 50 },
+            new object[]{TestConstants.PASSES, 5, 49, 50 },
+            new object[]{TestConstants.PASSES, 0, 49, 0 },
+            new object[]{TestConstants.PASSES, -1, 20, 0 },
+            new object[]{TestConstants.CONJURED, 3, 6, 5 },
         };
     }
 }
