@@ -13,14 +13,15 @@ namespace GildedRose.Tests
     {
 
         [Fact]
-        public void GetCategoryFromItemName() {
- 
+        public void GetCategoryFromItemName()
+        {
+
             ItemProcessor.GetCategory(new Item { Name = NameConstants.BRIE }).Should().Be(Category.Brie);
             ItemProcessor.GetCategory(new Item { Name = NameConstants.VEST }).Should().Be(Category.NormalItem);
             ItemProcessor.GetCategory(new Item { Name = NameConstants.PASSES }).Should().Be(Category.BackstagePasses);
             ItemProcessor.GetCategory(new Item { Name = NameConstants.SULFURAS }).Should().Be(Category.LegendaryItem);
             ItemProcessor.GetCategory(new Item { Name = NameConstants.CONJURED }).Should().Be(Category.ConjuredItem);
-            
+
             ItemProcessor.GetCategory(new Item { Name = NameConstants.ELIXIR }).Should().Be(Category.NormalItem);
             ItemProcessor.GetCategory(new Item { Name = "Random Item" }).Should().Be(Category.NormalItem);
         }
@@ -36,17 +37,19 @@ namespace GildedRose.Tests
         }
 
         [Fact]
-        public void CreateSpecificProcessorsBasedOnCategory() {
+        public void CreateSpecificProcessorsBasedOnCategory()
+        {
             ItemProcessor.GetInstanceFor(new Item { Name = NameConstants.BRIE }).Should().BeOfType<AgedBrieProcessor>();
             ItemProcessor.GetInstanceFor(new Item { Name = NameConstants.PASSES }).Should().BeOfType<BackstagePassesProcessor>();
-            ItemProcessor.GetInstanceFor(new Item { Name = NameConstants.SULFURAS}).Should().BeOfType<LegendaryItemProcessor>();
+            ItemProcessor.GetInstanceFor(new Item { Name = NameConstants.SULFURAS }).Should().BeOfType<LegendaryItemProcessor>();
             ItemProcessor.GetInstanceFor(new Item { Name = NameConstants.CONJURED }).Should().BeOfType<ConjuredItemProcessor>();
             ItemProcessor.GetInstanceFor(new Item { Name = "Another random item" }).Should().BeOfType<NormalItemProcessor>();
         }
 
         [Theory]
         [MemberData(nameof(TestData))]
-        public void AgedBrieProcessorShouldOnlyProcessAgedBrieItems(string name, int sellin, int quality, int newsellin, int newquality) {
+        public void AgedBrieProcessorShouldOnlyProcessAgedBrieItems(string name, int sellin, int quality, int newsellin, int newquality)
+        {
             var item = new Item() { Name = name };
 
             var processor = ItemProcessor.GetInstanceFor(item);
@@ -94,7 +97,7 @@ namespace GildedRose.Tests
                 processor.Should().NotBeOfType<LegendaryItemProcessor>();
             }
         }
-        
+
         [Theory]
         [MemberData(nameof(TestData))]
         public void NormalItemsProcessorShouldOnlyProcessNormal(string name, int sellin, int quality, int newsellin, int newquality)
@@ -134,8 +137,12 @@ namespace GildedRose.Tests
             new object[] { NameConstants.PASSES, 6,50,5,50},
             new object[] { NameConstants.PASSES, 6,49,5,50},
             new object[] { NameConstants.PASSES, 0,20,-1,0 },
-            new object[] { NameConstants.CONJURED, 3, 6, 2,5 },
+            new object[] { NameConstants.CONJURED, 3, 6, 2,4 },
+            new object[] { NameConstants.CONJURED, 10, 20,9,18 },
+            new object[] { NameConstants.CONJURED, 10, 0,9, 0 },
+            new object[] { NameConstants.CONJURED, 0, 20,-1,16 }
         };
+
 
     }
 }

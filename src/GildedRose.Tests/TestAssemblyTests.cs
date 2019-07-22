@@ -40,7 +40,7 @@ namespace GildedRose.Tests
             items[2].Quality.Should().Be(6);
             items[3].Quality.Should().Be(80);
             items[4].Quality.Should().Be(21);
-            items[5].Quality.Should().Be(5);
+            items[5].Quality.Should().Be(4);
 
         }
 
