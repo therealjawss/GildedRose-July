@@ -8,5 +8,9 @@ namespace GildedRose.Console
 {
     public class LegendaryItemProcessor:ItemProcessor
     {
+        public override void ProcessItem(Item item)
+        {
+            //do nothing for legendary items
+        }
     }
 }

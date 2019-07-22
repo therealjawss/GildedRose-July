@@ -60,6 +60,59 @@ namespace GildedRose.Tests
             }
         }
 
+
+        [Theory]
+        [MemberData(nameof(TestData))]
+        public void BackstagePassesProcessorShouldOnlyProcessBackstagePassess(string name, int sellin, int quality, int newsellin, int newquality)
+        {
+            var item = new Item() { Name = name };
+
+            var processor = ItemProcessor.GetInstanceFor(item);
+            if (ItemProcessor.GetCategory(item) == Category.BackstagePasses)
+            {
+                processor.Should().BeOfType<BackstagePassesProcessor>();
+            }
+            else
+            {
+                processor.Should().NotBeOfType<BackstagePassesProcessor>();
+            }
+        }
+
+        [Theory]
+        [MemberData(nameof(TestData))]
+        public void LegendaryItemsProcessorShouldOnlyProcessLegendary(string name, int sellin, int quality, int newsellin, int newquality)
+        {
+            var item = new Item() { Name = name };
+
+            var processor = ItemProcessor.GetInstanceFor(item);
+            if (ItemProcessor.GetCategory(item) == Category.LegendaryItem)
+            {
+                processor.Should().BeOfType<LegendaryItemProcessor>();
+            }
+            else
+            {
+                processor.Should().NotBeOfType<LegendaryItemProcessor>();
+            }
+        }
+        
+        [Theory]
+        [MemberData(nameof(TestData))]
+        public void NormalItemsProcessorShouldOnlyProcessNormal(string name, int sellin, int quality, int newsellin, int newquality)
+        {
+            var item = new Item() { Name = name };
+
+            var processor = ItemProcessor.GetInstanceFor(item);
+            if (ItemProcessor.GetCategory(item) == Category.NormalItem)
+            {
+                processor.Should().BeOfType<NormalItemProcessor>();
+            }
+            else
+            {
+                processor.Should().NotBeOfType<NormalItemProcessor>();
+            }
+        }
+
+
         public static IEnumerable<object[]> TestData =>
         new List<object[]>
         {
