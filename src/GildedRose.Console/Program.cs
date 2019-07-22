@@ -45,7 +45,7 @@ namespace GildedRose.Console
         {
             foreach (Item item in Items)
             {
-                ItemProcessor.ProcessItem(item);
+                ItemProcessor.GetInstanceFor(item).ProcessItem(item);
             }
         }
 

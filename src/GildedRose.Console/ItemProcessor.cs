@@ -8,7 +8,7 @@ namespace GildedRose.Console
 {
     public class ItemProcessor
     {
-        public static void ProcessItem(Item item)
+        public virtual void ProcessItem(Item item)
         {
             if (item.Name != "Aged Brie" && item.Name != "Backstage passes to a TAFKAL80ETC concert")
             {
@@ -79,6 +79,39 @@ namespace GildedRose.Console
                     }
                 }
             }
+        }
+
+        public static ItemProcessor GetInstanceFor(Item item)
+        {
+            switch (GetCategory(item))
+            {
+                case Category.Brie:
+                    return new AgedBrieProcessor();
+                case Category.BackstagePasses:
+                    return new BackstagePassesProcessor();
+                case Category.LegendaryItem:
+                    return new LegendaryItemProcessor();
+                case Category.ConjuredItem:
+                    return new ConjuredItemProcessor();
+                case Category.NormalItem:
+                    return new NormalItemProcessor();
+                default:
+                    return new ItemProcessor();
+            }
+        }
+
+        public static Category GetCategory(Item item)
+        {
+            if (item.Name.Equals(NameConstants.BRIE))
+                return Category.Brie;
+            else if (item.Name.Equals(NameConstants.PASSES))
+                return Category.BackstagePasses;
+            else if (item.Name.Equals(NameConstants.SULFURAS))
+                return Category.LegendaryItem;
+            else if (item.Name.StartsWith(NameConstants.CONJURED))
+                return Category.ConjuredItem;
+            else
+                return Category.NormalItem;
         }
     }
 }

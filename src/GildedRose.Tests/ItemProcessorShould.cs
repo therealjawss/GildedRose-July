@@ -9,48 +9,80 @@ using Xunit;
 
 namespace GildedRose.Tests
 {
-    class ItemProcessorShould
+    public class ItemProcessorShould
     {
+
+        [Fact]
+        public void GetCategoryFromItemName() {
+ 
+            ItemProcessor.GetCategory(new Item { Name = NameConstants.BRIE }).Should().Be(Category.Brie);
+            ItemProcessor.GetCategory(new Item { Name = NameConstants.VEST }).Should().Be(Category.NormalItem);
+            ItemProcessor.GetCategory(new Item { Name = NameConstants.PASSES }).Should().Be(Category.BackstagePasses);
+            ItemProcessor.GetCategory(new Item { Name = NameConstants.SULFURAS }).Should().Be(Category.LegendaryItem);
+            ItemProcessor.GetCategory(new Item { Name = NameConstants.CONJURED }).Should().Be(Category.ConjuredItem);
+            
+            ItemProcessor.GetCategory(new Item { Name = NameConstants.ELIXIR }).Should().Be(Category.NormalItem);
+            ItemProcessor.GetCategory(new Item { Name = "Random Item" }).Should().Be(Category.NormalItem);
+        }
+
         [Theory]
         [MemberData(nameof(TestData))]
         public void ProcessItemsAsPrescribed(string name, int sellin, int quality, int newSellin, int newQuality)
         {
             var item = new Item { Name = name, Quality = quality, SellIn = sellin }; ;
-            ItemProcessor.ProcessItem(item);
+            ItemProcessor.GetInstanceFor(item).ProcessItem(item);
             item.Quality.Should().Be(newQuality);
             item.SellIn.Should().Be(newSellin);
+        }
+
+        [Fact]
+        public void CreateSpecificProcessorsBasedOnCategory() {
+            ItemProcessor.GetInstanceFor(new Item { Name = NameConstants.BRIE }).Should().BeOfType<AgedBrieProcessor>();
+            ItemProcessor.GetInstanceFor(new Item { Name = NameConstants.PASSES }).Should().BeOfType<BackstagePassesProcessor>();
+            ItemProcessor.GetInstanceFor(new Item { Name = NameConstants.SULFURAS}).Should().BeOfType<LegendaryItemProcessor>();
+            ItemProcessor.GetInstanceFor(new Item { Name = NameConstants.CONJURED }).Should().BeOfType<ConjuredItemProcessor>();
+            ItemProcessor.GetInstanceFor(new Item { Name = "Another random item" }).Should().BeOfType<NormalItemProcessor>();
+        }
+
+        [Theory]
+        [MemberData(nameof(TestData))]
+        public void AgedBrieProcessorShouldOnlyProcessAgedBrieItems(string name, int sellin, int quality, int newsellin, int newquality) {
+            var item = new Item() { Name = name };
+
+            var processor = ItemProcessor.GetInstanceFor(item);
+            if (ItemProcessor.GetCategory(item) == Category.Brie)
+            {
+                processor.Should().BeOfType<AgedBrieProcessor>();
+            }
+            else
+            {
+                processor.Should().NotBeOfType<AgedBrieProcessor>();
+            }
         }
 
         public static IEnumerable<object[]> TestData =>
         new List<object[]>
         {
-            new object[] { VEST, 10, 20,9,19 },
-            new object[] { VEST, 10, 0,9, 0 },
-            new object[] { VEST, 0, 20,-1,18 },
-            new object[] { BRIE, 2,0,1,1 },
-            new object[] { BRIE, 2,50,1,50 },
-            new object[] { BRIE, 0,0,-1,2 },
-            new object[] { ELIXIR, 5,7,4,6 },
-            new object[] {SULFURAS, 0,80,0,80},
-            new object[] {SULFURAS, -1, 80, -1,80},
-            new object[] { PASSES, 15,20,14,21 },
-            new object[] { PASSES, 15,50,14,50 },
-            new object[] { PASSES, 10,20,9,22 },
-            new object[] { PASSES, 11,20,10,21 },
-            new object[] { PASSES, 5,20,4,23},
-            new object[] { PASSES, 6,20,5,22},
-            new object[] { PASSES, 6,50,5,50},
-            new object[] { PASSES, 6,49,5,50},
-            new object[] { PASSES, 0,20,-1,0 },
-            new object[] {CONJURED, 3, 6, 2,5 },
+            new object[] { NameConstants.VEST, 10, 20,9,19 },
+            new object[] { NameConstants.VEST, 10, 0,9, 0 },
+            new object[] { NameConstants.VEST, 0, 20,-1,18 },
+            new object[] { NameConstants.BRIE, 2,0,1,1 },
+            new object[] { NameConstants.BRIE, 2,50,1,50 },
+            new object[] { NameConstants.BRIE, 0,0,-1,2 },
+            new object[] { NameConstants.ELIXIR, 5,7,4,6 },
+            new object[] { NameConstants.SULFURAS, 0,80,0,80},
+            new object[] { NameConstants.SULFURAS, -1, 80, -1,80},
+            new object[] { NameConstants.PASSES, 15,20,14,21 },
+            new object[] { NameConstants.PASSES, 15,50,14,50 },
+            new object[] { NameConstants.PASSES, 10,20,9,22 },
+            new object[] { NameConstants.PASSES, 11,20,10,21 },
+            new object[] { NameConstants.PASSES, 5,20,4,23},
+            new object[] { NameConstants.PASSES, 6,20,5,22},
+            new object[] { NameConstants.PASSES, 6,50,5,50},
+            new object[] { NameConstants.PASSES, 6,49,5,50},
+            new object[] { NameConstants.PASSES, 0,20,-1,0 },
+            new object[] { NameConstants.CONJURED, 3, 6, 2,5 },
         };
 
-
-        public const string VEST = "+5 Dexterity Vest";
-        public const string BRIE = "Aged Brie";
-        public const string ELIXIR = "Elixir of the Mongoose";
-        public const string SULFURAS = "Sulfuras, Hand of Ragnaros";
-        public const string PASSES = "Backstage passes to a TAFKAL80ETC concert";
-        public const string CONJURED = "Conjured Mana Cake";
     }
 }
